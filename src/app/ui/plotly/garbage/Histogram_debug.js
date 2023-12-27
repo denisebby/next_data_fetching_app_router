@@ -1,15 +1,13 @@
 "use client"
 
-import dynamic from "next/dynamic";
-
 
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './histogram.module.css'; // This assumes you have a corresponding CSS file for styles
 
 
-const Histogram = ({ prop_data, prop_timestamp }) => {
+const Histogram = ({ prop_data, prop_timestamp, id_name }) => {
 
-    // console.log(prop_data, "version", id_name);
+    console.log(prop_data, "version", id_name);
 
     // console.log("Greetings from the histogram component!...")
 
@@ -18,13 +16,13 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
     const [error, setError] = useState('');
 
     // const [Plot, setPlotly] = useState();
-    const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
     const plotContainerRef = useRef(null);
 
     // if (!data || !data.results) {
     //     return <div>Loading...</div>; // Or any other loading indicator.
     //   }
 
+    // const ages = data.results.map(record => record.dob.age); // Adjust according to your data structure
 
     // attempt at conditional data fetching
     useEffect(() => {
@@ -42,7 +40,7 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
 
         // const timeout = process.env.TIMEOUT_USE_EFFECT;
         const timeout = 10000;
-        console.log(timeout)
+        console.log(timeout, ' from use effect')
         setTimeout( async () => {
         const res = await fetch('https://randomuser.me/api/?results=100');
 
@@ -56,8 +54,6 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
         // Generating a timestamp in Eastern Time
         const easternTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
         setTimestamp(easternTime);
-
-        console.log("Finished loading useEffect!!!!!!!!!!!!!!!!!!!!!")
 
 
         }, timeout);
@@ -81,32 +77,7 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
                 (!data)  ? 
                 (<div className="plotly_loading">Loading ...</div>) :
                 (
-                <Plot 
-                className={`${styles.data_display2} plotly_plot`}
-                data={[
-                    {
-                        x: data,
-                        type: 'histogram',
-                        marker: {
-                            color: "#ff6400ff", // Change histogram color
-                        },
-                        hoverinfo: 'x+y',
-                        nbinsx: 20,
-                    }
-                ]} // Data is an array of traces
-                layout={{ height: 0,
-                    xaxis: {
-                    title: 'Age', // X-axis label
-                    },
-                    yaxis: {
-                    title: '# People', // Y-axis label
-                    },
-                    hovermode: 'closest'
-                }}
-                useResizeHandler={true}
-                >
-
-                </Plot>
+                   <div> hi hi hi </div>
                 )
                 }
             </div>

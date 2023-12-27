@@ -1,8 +1,13 @@
+.plotly_loading {
+  display: grid;
+  place-items: center;
+}
+
 .data_display {
   /* width: 100%;
   align-items: center;
   justify-content: center; */
-  border: 2px dashed green; 
+  /* border: 2px dashed green;  */
   text-align: left;
 }
 
@@ -18,7 +23,7 @@
 .data_display2 {
   margin: 0 auto; /* Centers the div in the container */
   text-align: center; /* If you have text in data_display2, this will center it */
-  border: 2px dashed red; 
+  /* border: 2px dashed red;  */
   width: 90%; /* Example width */
   height: 400px; /* Increased height for larger screens */
 }

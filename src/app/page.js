@@ -1,39 +1,22 @@
-import React from 'react'
+import {React, Suspense} from 'react'
 import Head from 'next/head'
 import Link from 'next/link';
 
+
 import Histogram from './ui/plotly/Histogram'; // Import your display component
-
-
+import HistogramWrapperStatic from './ui/plotly/HistogramWrapperStatic';
+import HistogramWrapperDynamic from './ui/plotly/HistogramWrapperDynamic';
+// import StaticHistogram from './ui/plotly/StaticHistogram';
+// import DynamicHistogram from './ui/plotly/DynamicHistogram';
 
 import styles from './page.module.css'
 
-async function getData() {
-    try {
-        const res = await fetch('https://randomuser.me/api/?results=100',);
-    
-        if (!res.ok) {
-          throw new Error('Failed to fetch data');
-        }
-    
-        const jsonData = await res.json();
-        const prop_data = jsonData.results.map(record => record.dob.age);
-    
-        // Generating a timestamp in Eastern Time
-        const easternTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-    
-        return { props: { prop_data: prop_data, prop_timestamp: easternTime } };
-      } catch (error) {
-        // Handle errors as needed, possibly passing an error message in props
-        return { props: { error: error.message } };
-      }
-}
-
-
 
 const Home = async () => {
-    const data = await getData()
-    console.log(data)
+    // const static_data = await getDataStaticRendering();
+    // const dynamic_data = await getDataDynamicRendering();
+    // const [static_data, dynamic_data] = await Promise.all([getDataStaticRendering(), getDataDynamicRendering()]);
+  
   return (
     <>
       <div className={`${styles["home-container"]}`}>
@@ -96,10 +79,13 @@ const Home = async () => {
             <br></br>
             Notes:
             <ul>
-              <li> With getStaticProps, for production build, it will not refetch data. 
+              <li> 
+            With getStaticProps, for production build, it will not refetch data. 
             It's fetched at build time and that's it. But there's more that can be done with revalidation.
-            getServerSideProps fetches per request.</li>
-              <li>getStaticProps always runs on the server and never on the client</li>
+            getServerSideProps fetches per request.
+            </li>
+              <li>getStaticProps always runs on the server and never on the client
+              </li>
               <li>Incremental static regeneration (ISR); add revalidate</li>
               <li>Write server code directly in getStaticProps and getServerSideProps. Instead of fetching an API route 
                 from them (that itself fetches data from an external source),
@@ -126,6 +112,13 @@ const Home = async () => {
                 </li>
                 <li> We can't directly import a server component into a client component. 
                     But we can pass server component to client component as props.</li>
+                <li> We can't use async and await in client components.</li>
+                <li> Currently, if you call a dynamic function inside your route 
+                    (e.g. noStore(), cookies(), etc), your whole route becomes dynamic. This aligns 
+                    with how most web apps are built today, you either choose between 
+                    static and dynamic rendering for your entire application or for specific routes.
+                    As of 12-27-2023, I think Vercel is experimenting with partial prerendering.
+                </li>
               
             </ul>
           </div>
@@ -136,12 +129,12 @@ const Home = async () => {
           </div>
           <div className={styles["home-container04"]}>
             <h1 className={`${styles["home-text05"]} ${styles["Subheading"]}`}>
-              Blah
+                useEffect in Client Component
             </h1>
             <div className={styles["home-container05"]}>
             
               <div>
-                Blah blah
+                The data is fetched on every user browser refresh.
             
                 <br></br>
                 <br></br>
@@ -157,72 +150,60 @@ const Home = async () => {
         <div className={styles["home-example2c"]}>
           <div className={styles["home-container07"]}>
             <h1 className={`${styles["home-text07"]} ${styles["Subheading"]}`}>
-              getServerSideProps
+              Static Rendering
             </h1>
             <div className={styles["home-container08"]}>
               <span>
-                See demo of getServerSideProps here:
-                <br></br>
-                <br></br>
+                The data stays constant.
 
-                <Link href="/more_examples/ue_vs_g_server_side_p" >
-                  See how getServerSideProps works...
-                </Link>
               </span>
             </div>
             <div className={styles["home-container09"]}>
+                {/* <StaticHistogram></StaticHistogram> */}
+            {/* <Histogram prop_data = {static_data.props.prop_data} prop_timestamp = {static_data.props.prop_timestamp} id_name = {"from_static_render"}></Histogram> */}
+            <HistogramWrapperStatic></HistogramWrapperStatic>
             </div>
           </div>
           <div className={styles["home-container10"]}>
             <span className={`${styles["home-text09"]} ${styles["Heading"]}`}>2</span>
           </div>
         </div>
-        <div className={styles["home-example3c"]}>
-          <div className={styles["home-container11"]}>
-            <span className={`${styles["home-text10"]} ${styles["Heading"]}`}>3</span>
-          </div>
-          <div className={styles["home-container12"]}>
-            <h1 className={`${styles["home-text11"]} ${styles["Subheading"]}`}>
-              getServerSideProps
-            </h1>
-            <div className={styles["home-container13"]}>
-              <span>
-                We can't use getServerSideProps and getStaticProps on the same page.
-                I made a new page that uses getServerSideProps.
 
+
+        <div className={styles["home-example1c"]}>
+          <div className={styles["home-container03"]}>
+            <span className={`${styles["home-text04"]} Heading`}>3</span>
+          </div>
+          <div className={styles["home-container04"]}>
+            <h1 className={`${styles["home-text05"]} ${styles["Subheading"]}`}>
+                Dynamic Rendering
+            </h1>
+            <div className={styles["home-container05"]}>
+            
+              <div>
+                The data is fetched on every user browser refresh.
+            
                 <br></br>
                 <br></br>
+                Blah
 
-                <Link href="/more_examples/ue_vs_gssp" >
-                  See example
-                </Link>
-              </span>
+              </div>
             </div>
-            <div className={styles["home-container14"]}></div>
+            <div className={styles["home-container06"]}>
+                {/* <Suspense fallback={<div> Suspense loading here man ...</div>}> */}
+                    {/*  <DynamicHistogram> Plot </DynamicHistogram> */}
+                {/* </Suspense> */}
+
+            <Suspense fallback={<div> Suspense loading here...</div>}>
+                {/* <Histogram prop_data = {dynamic_data.props.prop_data} prop_timestamp = {dynamic_data.props.prop_timestamp} id_name = {"from_dynamic_render"}></Histogram> */}
+                <HistogramWrapperDynamic></HistogramWrapperDynamic>
+            </Suspense>
+
+            </div>
           </div>
         </div>
-        <div className={styles["home-example4c"]}>
-          <div className={styles["home-container15"]}>
-            <h1 className={`${styles["home-text13"]} ${styles["Subheading"]}`}>
-              On the Client, with 3rd party libraries
-            </h1>
-            <div className={styles["home-container16"]}>
-              <span>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum
-              </span>
-            </div>
-            <div className={styles["home-container17"]}></div>
-          </div>
-          <div className={styles["home-container18"]}>
-            <span className= {`${styles["home-text15"]} ${styles["Heading"]}`}>4</span>
-          </div>
-        </div>
+
+        
         <footer className={styles["home-footer"]}>
           <div className={styles["home-container19"]}>
             <div className={styles["home-container20"]}>

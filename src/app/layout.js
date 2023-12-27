@@ -1,5 +1,4 @@
 import { Inter, Urbanist } from 'next/font/google'
-// import Document, { Html, Head, Main, NextScript } from 'next/document'
 import './globals.css'
 
 const inter = Urbanist({ subsets: ['latin'] })
