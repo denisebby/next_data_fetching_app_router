@@ -14,12 +14,16 @@ async function getDataStaticRendering() {
     
         // Generating a timestamp in Eastern Time
         const easternTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+
+        console.log("from getDataStaticRendering()");
     
         return { props: { prop_data: prop_data, prop_timestamp: easternTime } };
       } catch (error) {
         // Handle errors as needed, possibly passing an error message in props
         return { props: { error: error.message } };
       }
+
+      
 }
 
 const HistogramWrapperStatic = async () => {

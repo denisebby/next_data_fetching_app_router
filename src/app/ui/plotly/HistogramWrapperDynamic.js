@@ -20,6 +20,8 @@ async function getDataDynamicRendering() {
     
         // Generating a timestamp in Eastern Time
         const easternTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+
+        console.log("from getDataDynamicRendering()");
     
         return { props: { prop_data: prop_data, prop_timestamp: easternTime } };
       } catch (error) {

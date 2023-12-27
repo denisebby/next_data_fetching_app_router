@@ -42,7 +42,7 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
 
         // const timeout = process.env.TIMEOUT_USE_EFFECT;
         const timeout = 10000;
-        console.log(timeout)
+    
         setTimeout( async () => {
         const res = await fetch('https://randomuser.me/api/?results=100');
 
@@ -57,7 +57,7 @@ const Histogram = ({ prop_data, prop_timestamp }) => {
         const easternTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
         setTimestamp(easternTime);
 
-        console.log("Finished loading useEffect!!!!!!!!!!!!!!!!!!!!!")
+        console.log("from useEffect()");
 
 
         }, timeout);
