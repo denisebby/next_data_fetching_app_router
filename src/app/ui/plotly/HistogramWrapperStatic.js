@@ -21,9 +21,7 @@ async function getDataStaticRendering() {
       } catch (error) {
         // Handle errors as needed, possibly passing an error message in props
         return { props: { error: error.message } };
-      }
-
-      
+      }    
 }
 
 const HistogramWrapperStatic = async () => {

@@ -16,6 +16,10 @@ const Home = async () => {
     // const static_data = await getDataStaticRendering();
     // const dynamic_data = await getDataDynamicRendering();
     // const [static_data, dynamic_data] = await Promise.all([getDataStaticRendering(), getDataDynamicRendering()]);
+  const redirectToGitHub = async () => {
+    "use server"
+      window.open('https://github.com/denisebby/next_data_fetching_app_router', '_blank');
+  };
   
   return (
     <>
@@ -35,13 +39,13 @@ const Home = async () => {
           </div>
           <div data-thq="thq-navbar-nav" className={styles["home-desktop-menu"]}>
             <div className={styles["home-buttons"]}>
-              <button className={styles["button"]}>Github</button>
+              {/* <button className={styles["button"]} onClick={redirectToGitHub}>Github</button> */}
             </div>
           </div>
           <div data-thq="thq-burger-menu" className={styles["home-burger-menu"]}>
-            <svg viewBox="0 0 1024 1024" className={styles["home-icon"]}>
+            {/* <svg viewBox="0 0 1024 1024" className={styles["home-icon"]}>
               <path d="M128 554.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 298.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 810.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"></path>
-            </svg>
+            </svg> */}
           </div>
           <div data-thq="thq-mobile-menu" className={styles["home-mobile-menu"]}>
             <div className={styles["home-nav"]}>
@@ -61,7 +65,7 @@ const Home = async () => {
                 </div>
               </div>
               <div className={styles["home-buttons1"]}>
-                <button className={styles["button"]}>Github</button>
+                {/* <button className={styles["button"]} onClick={redirectToGitHub}>Github</button> */}
               </div>
             </div>
           </div>
@@ -134,11 +138,16 @@ const Home = async () => {
             <div className={styles["home-container05"]}>
             
               <div>
-                The data is fetched on every user browser refresh.
-            
+                The data is fetched on every user browser refresh. I artificially set a timeout of 10 seconds to simulate a slow data fetch. So this data ends up loading last.
                 <br></br>
-                <br></br>
-                Blah
+                See code <a 
+                          href="https://github.com/denisebby/next_data_fetching_app_router/blob/main/src/app/ui/plotly/Histogram.js"
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'underline' }}
+                        >
+                          here
+                        </a>.
 
               </div>
             </div>
@@ -153,10 +162,19 @@ const Home = async () => {
               Static Rendering
             </h1>
             <div className={styles["home-container08"]}>
-              <span>
-                The data stays constant.
+            <span>
+              The data stays constant and is fetched once at build time. If we refresh the page, the data will stay the same. 
+              <br></br>
+              See code <a 
+                          href="https://github.com/denisebby/next_data_fetching_app_router/blob/main/src/app/ui/plotly/HistogramWrapperStatic.js" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'underline' }}
+                        >
+                          here
+                        </a>.
+            </span>
 
-              </span>
             </div>
             <div className={styles["home-container09"]}>
                 {/* <StaticHistogram></StaticHistogram> */}
@@ -181,18 +199,28 @@ const Home = async () => {
             <div className={styles["home-container05"]}>
             
               <div>
-                The data is fetched on every user browser refresh.
+                The data is fetched on every user browser refresh. The data is fetched on the server and should be fast. 
+                Without the use of Suspense, the whole page will not load without this data being fetched. With Suspense, the 
+                page at least shows and the fallback presentation shows. I artificially set a timeout of 5 seconds to simulate a slow data fetch.
+
+                Note that the code used to fetch the data is very similar to the static rendering code but this time, we add the cache: 'no-store'.
+
+                <br></br>
+                See code <a 
+                          href="https://github.com/denisebby/next_data_fetching_app_router/blob/main/src/app/ui/plotly/HistogramWrapperDynamic.js" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'underline' }}
+                        >
+                          here
+                        </a>.
             
-                <br></br>
-                <br></br>
-                Blah
+
+
 
               </div>
             </div>
             <div className={styles["home-container06"]}>
-                {/* <Suspense fallback={<div> Suspense loading here man ...</div>}> */}
-                    {/*  <DynamicHistogram> Plot </DynamicHistogram> */}
-                {/* </Suspense> */}
 
             <Suspense fallback={<div> Suspense loading here...</div>}>
                 {/* <Histogram prop_data = {dynamic_data.props.prop_data} prop_timestamp = {dynamic_data.props.prop_timestamp} id_name = {"from_dynamic_render"}></Histogram> */}
