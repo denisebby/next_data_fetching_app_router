@@ -4,6 +4,8 @@ Next so fetch
 
 An app that demos multiple ways to fetch data with next js
 
+next-data-fetching-app-router.vercel.app
+
 To run:
 
 
